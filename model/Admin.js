@@ -1,23 +1,23 @@
-import { Schema } from "mongoose";
-
-const adminSchema=new Schema({
-    name:{
-        type:String,
+import mongoose from "mongoose"; 
+const adminSchema = new mongoose.Schema({
+    name: {
+        type: String,
         required: true
     },
     email: {
         type: String,
-        required: true, 
+        required: true,
         unique: true
     },
     password: {
         type: String,
-        required: true 
+        required: true
     },
     date: {
         type: Date,
         default: Date.now
     }
-})
-const Admin=mongoose.model("Admin", adminSchema);
+});
+
+const Admin = mongoose.model("Admin", adminSchema);
 export default Admin;

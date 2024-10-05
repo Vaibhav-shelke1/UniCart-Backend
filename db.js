@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config(); 
 
-const url="mongodb+srv://vaibhavshelke218:pass123@cluster0.70vsf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const url = process.env.mongo_url;
 
-const connectToMongo=async ()=>{
+const connectToMongo = async () => {
     try {
-        await mongoose.connect(url)
-            console.log("connected to server");
+        await mongoose.connect(url);
+        console.log("Connected to server");
     } catch (error) {
         console.error("Database connection failed:", error.message);
-      }
+    }
 }
 
 export default connectToMongo;
-
