@@ -7,7 +7,7 @@ const port=5000;
 
 connectToMongo();
 app.use(express.json());
-app.use('api/admin/',adminRouter);
+app.use('/api/admin',adminRouter);
 
 
 
