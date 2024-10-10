@@ -25,4 +25,17 @@ router.post("/createAdmin", async (req, res) => {
     }
 });
 
+router.post("/login",async(req,res)=>{
+    const {email,password}=req.body;
+    try {
+        const user=await Admin.findOne(email);
+        if(!user){
+            return res.status(400).send({error:"user not found"});
+        }
+    } catch (error) {
+        
+    }
+
+})
+
 export default router;
