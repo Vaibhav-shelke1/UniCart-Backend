@@ -3,21 +3,19 @@ import Admin from "../model/Admin.js";
 // import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-
-
 const router = express.Router();
 
 router.post("/createAdmin", async (req, res) => {
-    const { name, email, password,role } = req.body;
-     
-    const salt=await bcrypt.genSalt(10);
-    const secPass=await bcrypt.hash(password,salt)
+    const { name, email, password, role } = req.body;
+
+    const salt = await bcrypt.genSalt(10);
+    const secPass = await bcrypt.hash(password, salt);
     try {
         const user = await Admin.create({
             name: name,
             email: email,
             password: secPass,
-            role:role
+            role: role
         });
         return res.send({ user });
     } catch (error) {
@@ -25,17 +23,21 @@ router.post("/createAdmin", async (req, res) => {
     }
 });
 
-router.post("/login",async(req,res)=>{
-    const {email,password}=req.body;
+router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
     try {
-        const user=await Admin.findOne(email);
-        if(!user){
-            return res.status(400).send({error:"user not found"});
+        const user = await Admin.findOne({ email: email });
+        if (!user) {
+            return res.status(400).send({ error: "user not found" });
         }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).send({ error: "invalid credentials" });
+        }
+        return res.send({ message: "login successful", user });
     } catch (error) {
-        
+        return res.status(500).send({ error: error.message });
     }
-
-})
+});
 
 export default router;
